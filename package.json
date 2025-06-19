@@ -1,0 +1,15 @@
+{
+  "name": "systemfetch",
+  "version": "1.0.0",
+  "main": "fetcher.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "yoctocolors-cjs": "^2.1.2"
+  }
+}
