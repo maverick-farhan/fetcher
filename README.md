@@ -1,3 +1,3 @@
 # Fetcher
 ## system information tool in nodejs
-<a href = "./snippet.png" />
+![Sample Image](snippet.png "Fetcher in Action")
