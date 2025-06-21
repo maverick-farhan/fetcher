@@ -3,6 +3,25 @@ const colors = require("yoctocolors-cjs");
 const freemem = os.freemem()/1024/1024/1024;
 const totalmem = os.totalmem()/1024/1024/1024;
 
+const androidASCII = `
+⠀⠀⠀⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠙⢷⣤⣤⣴⣶⣶⣦⣤⣤⡾⠋⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣼⣿⣿⣉⣹⣿⣿⣿⣿⣏⣉⣿⣿⣧⠀⠀⠀⠀
+⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀
+⣠⣄⠀⢠⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⣤⡄⠀⣠⣄
+⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿
+⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿
+⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿
+⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢸⣿⣿
+⠻⠟⠁⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠈⠻⠟
+⠀⠀⠀⠀⠉⠉⣿⣿⣿⡏⠉⠉⢹⣿⣿⣿⠉⠉⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣿⣿⣿⡇⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣿⣿⣿⡇⠀⠀⢸⣿⣿⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⠉⠉⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀
+
+`;
+
 const appleASCII = `
                         .8 
                       .888
@@ -51,54 +70,60 @@ const linuxASCII =
    \\__/'---'\\__/
 `;
 if(os.platform()==='windows'){
-  console.log(colors.yellow("Fetcher is Fetching..."));
-  setTimeout(showSpecs,1000);
+  showSpecs(windowsASCII);
 }
 else if(os.platform()==='linux'){
-  console.log(colors.yellow("Fetcher is Fetching..."));
-  setTimeout(showSpecs,1000);
+  showSpecs(linuxASCII);
 }
 else if(os.platform()==='macos'){
-  console.log(colors.yellow("Fetcher is Fetching..."));
-  setTimeout(showSpecs,1000);
+  showSpecs(macosASCII);
+}
+else if(os.platform()==='android'){
+  showSpecs(androidASCII);
 }
 else{
-  console.log("Hardware not supported")
+  console.log(colors.cyan("Hardware not supported"));
 }
 
 //Show Specs Details of Hardware
-function showSpecs(){
+function showSpecs(platformASCII){
 const exec = require('child_process').exec;
-  console.log(colors.red(`${linuxASCII}`));
-  console.log(colors.red(` ${os.hostname()}`))
-  console.log(colors.red('------------------------------'));
-  console.log(colors.red(` Host: ${os.hostname()}`))
-  console.log(colors.red(` Kernel: ${os.release()}`))
-  console.log(colors.red(` Architecture: ${os.arch()}`))
-  console.log(colors.red(` Memory: ${freemem.toPrecision(2)}G / ${totalmem.toPrecision(2)}G`))
-  console.log(colors.red(` CPU: ${os.cpus()[0].model}`))
+  console.log(colors.green(`${platformASCII}`));
+  console.log(colors.green(` ${os.hostname()}`))
+  console.log(colors.green('------------------------------'));
+  console.log(colors.green(` Host: ${os.hostname()}`))
+  console.log(colors.green(` Kernel: ${os.release()}`))
+  console.log(colors.green(` Architecture: ${os.arch()}`))
+  console.log(colors.green(` Memory: ${freemem.toPrecision(2)}G / ${totalmem.toPrecision(2)}G`))
+if(os.cpus.length === 0){
+  console.log(colors.green(` CPU: NILL`))
+}
+else{
+  console.log(colors.green(` CPU: ${os.cpus()[0].model}`))
+}
+
 exec('uname -o',(error,stdout)=>{
-        console.log(colors.red(` OS: ${stdout}`))
+        console.log(colors.green(` OS: ${stdout}`))
         if (error !== null) {
              console.log('exec error: ' + error);
         }
     });
 
 exec('which $SHELL',(error,stdout)=>{
-        console.log(colors.red(` Shell: ${stdout}`))
+        console.log(colors.green(` Shell: ${stdout}`))
         if (error !== null) {
              console.log('exec error: ' + error);
         }
     });
 
 exec('apt list --installed | wc -l',(error,stdout)=>{
-        console.log(colors.red(` Packages: ${stdout}`))
+        console.log(colors.green(` Packages: ${stdout}`))
         if (error !== null) {
              console.log('exec error: ' + error);
         }
     });
 exec('uptime -p',(error,stdout)=>{
-        console.log(colors.red(` Uptime: ${stdout}`))
+        console.log(colors.green(` Uptime: ${stdout}`))
         if (error !== null) {
              console.log('exec error: ' + error);
         }
